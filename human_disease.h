@@ -18,20 +18,20 @@ class Person
 		int age;
 		int id;
 		string health;
-		int sick_days_left;
+		int sick_days_left = 0;
 		vector<string> states = {"susceptible", "recovered","inocculated","sick"};
 		map<string, int> state;
 		map<string, int> health_conv = {{"susceptible", 0}, { "recovered", 1},
 					        {"inocculated", 2}, {"sick", -1}};
 
 	public:
-		Person(int uniq_id, string dis_stat = "susceptible")
+		Person(int uniq_id, string dis_stat = "susceptible", int sick_days = 7)
 		{
 			id = uniq_id;
 			health = dis_stat;
 			age = 0;
 			if (health == "sick")
-				sick_days_left = 5;
+				sick_days_left = sick_days;
 		}
 		
 		int getID()

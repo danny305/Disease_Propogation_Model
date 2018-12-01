@@ -20,7 +20,7 @@ class Population
 		int init_inocc;
 
 	public:
-		Population(int pop_size = 20, int initSick = 1, int initInocc = 0)
+		Population(int pop_size = 20, int initSick = 1, int initInocc = 0, int sick_days = 7)
 		{	
 			size = pop_size;
 			init_sick = initSick;
@@ -31,7 +31,7 @@ class Population
 			{
 				if (sick_counter < init_sick)
 				{
-					Person person_obj =  Person(x,"sick");
+					Person person_obj =  Person(x,"sick", sick_days);
 					pop_vect.push_back(person_obj);
 					sick_counter++;
 				}
@@ -136,7 +136,7 @@ class Population
 		}
 */
 
-		void pop_interact(int num_interact = 10,float inf_prob = .1, bool inc_day = false)
+		void pop_interact(int num_interact = 10,float inf_prob = .1, int sick_days = 7)
 		{
 			map <int, int> interaction_counts;
 			for (auto &person_obj : pop_vect)
@@ -168,36 +168,39 @@ class Population
 						if (person_obj.getHealth() == "sick" && 
 						pop_vect[random_person].getHealth() == "susceptible")		
 						{
+							//cant infect others the same day you were infected.
+							if (person_obj.getSickDaysLeft() == sick_days)
+								continue;
+				
 							cout << "person: " << person_obj.getID() << " is infecting rand person: " <<
 							pop_vect[random_person].getID() << endl;
-							pop_vect[random_person].infect();
+							pop_vect[random_person].infect(sick_days);
 						}
+
 						else if (pop_vect[random_person].getHealth() == "sick" && 
 						person_obj.getHealth() == "susceptible")	
 						{
+							//Cant infect others the same day you were infected.
+							if (pop_vect[random_person].getSickDaysLeft() == sick_days)
+								continue;
+				
 							cout << "Rand person: " << pop_vect[random_person].getID() << 
 							" is infecting person: " << person_obj.getID() << endl;
-							person_obj.infect();
+							person_obj.infect(sick_days);
 						}
+
 						else
 							continue;
 						
-						//cout << "INFECTION ALERT!" << endl;
-						//person_obj.status_string();
-						//pop_vect[random_person].status_string();
 					}
 
-				//	cout << "Person ID: " << person_obj.getID() << endl << "	Interaction count: " << 
-				//	interaction_counts[person_obj.getID()] << endl;
 				}
 
 			} 
-			if (inc_day){
-				day++; 
-			}			
+					
 		}
 		
-		void propogate (bool write_2_file=false) 
+		void propogate (int num_interact = 10, float inf_prob = .1, int sick_days = 7, bool write_2_file=false) 
 		{
 			
 			srand(time(NULL));
@@ -217,19 +220,19 @@ class Population
 			while (sick_counter != 0)
 			{
 				update_pop_to_day();
-				pop_interact();
+				pop_interact(num_interact,inf_prob, sick_days);
 				if (write_2_file)
 				{
 					for (auto &person_obj : pop_vect)
 					{
-						outputfile << person_obj.outputStateCSV() << endl;
+						outputfile << person_obj.outputStateCSV() << endl << endl;
 					}	
 				}
 				
 				else
 					outputPopState();
 				
-				cout << "----------------------------------------------------------------------------"<< endl << endl;		
+				cout << "-------------------------------------------------------"<< endl << endl;		
 				prop_days++;
 				int  current_sick = 0;
 						
@@ -247,6 +250,15 @@ class Population
 };
 
 
+void run_dis_propogator (int pop_size = 100, int start_sick = 1, int start_inocc = 0, int sick_days = 7, int interactions = 10, float inf_prob = 0.05, bool mk_file = true)
+{
+	Population ATX(pop_size, start_sick, start_inocc,sick_days);
+	
+	ATX.propogate(interactions, inf_prob, sick_days, mk_file);
+
+}
+
+
 
 int main()
 {
@@ -255,17 +267,17 @@ int main()
 	roosh.status_string();
 	*/
 	
-	Population htown(20,1,0);
-	cout << htown.getDate() << endl;
+	//Population htown(20,1,0);
+	//cout << htown.getDate() << endl;
 	//htown.status();
  	//htown.update_pop_to_day(3);
 	//htown.outputPopState();
 	
-	cout << "---------------------------------------------------------------------------------------------------"<< endl << endl;
+	cout << "#################################################################################"<< endl << endl;
 	//htown.pop_interact();
-	
-	htown.propogate(true);
-	cout << "---------------------------------------------------------------------------------------------------"<< endl << endl;
+	run_dis_propogator();
+	//htown.propogate(true);
+	cout << "#################################################################################"<< endl << endl;
 	
 	//htown.outputPopState();
 }
