@@ -250,7 +250,8 @@ class Population
 };
 
 
-void run_dis_propogator (int pop_size = 100, int start_sick = 1, int start_inocc = 0, int sick_days = 7, int interactions = 10, float inf_prob = 0.05, bool mk_file = true)
+void run_dis_propogator (int pop_size = 100, int start_sick = 1, int start_inocc = 0, int sick_days = 7, 
+			 int interactions = 10, float inf_prob = 0.05, bool mk_file = true)
 {
 	Population ATX(pop_size, start_sick, start_inocc,sick_days);
 	
