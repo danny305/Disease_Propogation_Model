@@ -261,7 +261,7 @@ void run_dis_propogator (int pop_size = 100, int start_sick = 1, int start_inocc
 
 
 
-int main()
+int main(int argc, char)
 {
 	/*
  	Person roosh = Person(1);
@@ -276,8 +276,11 @@ int main()
 	
 	cout << "#################################################################################"<< endl << endl;
 	//htown.pop_interact();
-	run_dis_propogator();
 	//htown.propogate(true);
+	
+	
+	run_dis_propogator();
+
 	cout << "#################################################################################"<< endl << endl;
 	
 	//htown.outputPopState();
