@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 
 
 
-def create_vaccination_data(pop_size=10000, data_points=35, percent_vacc=0.95, num_interaction=10, inf_rate = 0.05):
+def create_vaccination_data(pop_size=10000, data_points=35, percent_vacc=0.98, num_interaction=10, inf_rate = 0.05):
 
     vaccination_range = int(pop_size * percent_vacc)
     step_size = int(vaccination_range//data_points)
@@ -117,18 +117,19 @@ def main():
     create_vaccination_data(inf_rate=0.2)
     create_vaccination_data(inf_rate=0.25)
     create_vaccination_data(inf_rate=0.3)
-    create_vaccination_data(inf_rate=0.60)
-    create_vaccination_data(inf_rate=0.25)
-    create_vaccination_data(inf_rate=0.20)
-    create_vaccination_data(inf_rate=0.60)
-    create_vaccination_data(inf_rate=0.65)
-    create_vaccination_data(inf_rate=0.80)
+    create_vaccination_data(inf_rate=0.35)
+    create_vaccination_data(inf_rate=0.4)
+    create_vaccination_data(inf_rate=0.45)
+    create_vaccination_data(inf_rate=0.5)
     create_vaccination_data(inf_rate=0.55)
     create_vaccination_data(inf_rate=0.60)
     create_vaccination_data(inf_rate=0.65)
     create_vaccination_data(inf_rate=0.70)
+    create_vaccination_data(inf_rate=0.75)
     create_vaccination_data(inf_rate=0.80)
     create_vaccination_data(inf_rate=0.85)
+    create_vaccination_data(inf_rate=0.90)
+
 
 
     #sp.call(['./pop_cli_no_cout.bin', '1000', '1', '50', '7', '10', '0.05', 'true'])
